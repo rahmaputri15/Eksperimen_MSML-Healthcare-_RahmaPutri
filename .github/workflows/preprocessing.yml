@@ -1,0 +1,38 @@
+# .github/workflows/preprocess_workflow.yml
+
+name: Data Preprocessing CI
+
+on:
+  push:
+    branches:
+      - main  # Trigger setiap push ke branch main
+
+jobs:
+  run-preprocessing:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12.7
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12.7'
+
+      - name: Install Dependencies
+        run: |
+          # Asumsikan dependensi ada di requirements.txt di root folder
+          pip install pandas scikit-learn
+
+      - name: Run Preprocessing Script
+        run: |
+          # Pastikan path file raw data tersedia (misal: di root)
+          # Ganti 'preprocessing/automate_Nama-siswa.py' dengan path Anda
+          python preprocessing/automate_Nama-siswa.py
+
+      - name: Upload Cleaned Dataset Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cleaned-dataset
+          # Sesuaikan path output file preprocessing
+          path: preprocessing/namadataset_preprocessing/healthcare_cleaned.csv
